@@ -109,6 +109,14 @@ div.scrollable::-webkit-scrollbar-thumb {
     border: 1px solid white;
 }
 
+.scrollable {
+    overflow-y: auto;
+    margin-bottom: 18px;
+    height: auto;
+    max-height: 60vh;
+    -webkit-overflow-scrolling: touch;
+}
+
 /*.column {
     float: left;
     width: 33.33%;
@@ -244,7 +252,7 @@ div.scrollable::-webkit-scrollbar-thumb {
             <div class="flex-container">
                 <div class="content-wrapper">
 
-                    <div class="scrollable" style="max-height: 700px; overflow-y: auto; margin-bottom: 18px;">
+                    <div class="scrollable" style="max-height: 90vh; overflow-y: auto; margin-bottom: 18px;">
                     
                         <div class="column technology w3-third" >
                             <div class="img__wrap">
