@@ -23,13 +23,15 @@
         .slide {
            font-size: 3em;
         }
-        .flex-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            text-align: left;
-        }
+       .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: left;
+    flex-wrap: wrap; /* Allows flex items to wrap onto next line if there's not enough space */
+    padding: 10px; /* Small amount of padding can help with alignment issues */
+}
 
         .content-wrapper {
             display: flex;
@@ -41,8 +43,10 @@
         }
 
         .flex-item {
-            padding: 0 15px;
-        }
+    padding: 0 15px;
+    max-width: 100%; /* Ensure flex item does not exceed the width of its container */
+    box-sizing: border-box; /* This makes sure that padding does not add to the total width */
+}
 
         .flex-item img {
             width: 90%;
@@ -50,10 +54,11 @@
         }
 
         @media screen and (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-        }
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center; /* Ensures items are centered vertically when displayed in a column */
+    }
+}
 
         .content-wrapper > .flex-item:first-child {
             flex: 1;
@@ -95,33 +100,31 @@
   
 
 /* The container div */
-div.scrollable {
+.scrollable {
   scrollbar-width: thin; /* "auto" or "thin"  */
   scrollbar-color: black; /* scrollbar color: thumb and track */
+  overflow-y: auto;
+  margin-bottom: 18px;
+  height: auto;
+  /*max-height: 60vh;*/
+  -webkit-overflow-scrolling: touch;
 }
 
 /* WebKit browsers like Chrome, Safari, and Opera */
-div.scrollable::-webkit-scrollbar {
+.scrollable::-webkit-scrollbar {
   width: 12px; /* width of the entire scrollbar */
 }
 
-div.scrollable::-webkit-scrollbar-track {
+.scrollable::-webkit-scrollbar-track {
   background: none; /* color of the tracking area */
 }
 
-div.scrollable::-webkit-scrollbar-thumb {
+.scrollable::-webkit-scrollbar-thumb {
   background-color: rgba(155, 155, 155, 0.7);
-    border-radius: 20px;
-    border: 1px solid white;
+  border-radius: 20px;
+  border: 1px solid white;
 }
 
-.scrollable {
-    overflow-y: auto;
-    margin-bottom: 18px;
-    height: auto;
-    max-height: 60vh;
-    -webkit-overflow-scrolling: touch;
-}
 
 /*.column {
     float: left;
@@ -223,7 +226,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                                 <div class="scrollable" style="overflow-y: auto; margin-bottom: 18px; max-height: 60vh;">
 
                                     <div id="about-me-text" style="display: none;">
-                                        <p style="font-size:16px; margin-left: 0px; margin-right: 20px;"> I would describe myself as a mission-driven and data-led designer and researcher. I've dedicated my career to collaborating with cross-disciplinary teams in public health and humanitarian contexts, while leveraging my design perspective and skillsets</br></br> My journey began in architecture where I was fortunate to work on high-impact projects in low-income settings that aimed to transform the lives of individual families and entire communities. However, a profound experience working with an NGO client during the 2014-2016 Ebola Outbreak in West Africa inspired me to return to school to explore how I could broaden and apply my design background and skillset within the humanitarian field as a full-time career.
+                                        <p style="font-size:16px; margin-left: 0px; margin-right: 20px;">As a mission-driven designer and researcher, I've dedicated my career to collaborating with cross-disciplinary teams in public health and humanitarian contexts, while leveraging my design perspective and skillsets</br></br> My journey began in architecture where I was fortunate to work on high-impact projects in low-income settings that aimed to transform the lives of individual families and entire communities. However, a profound experience working with an NGO client during the 2014-2016 Ebola Outbreak in West Africa inspired me to return to school to explore how I could broaden and apply my design background and skillset within the humanitarian field as a full-time career.
                                         </br></br> 
                                         Since graduating in 2018, I've had the incredible opportunity to cultivate my profressional growth at the <a href="https://hhi.harvard.edu/" target="_blank" style=" color: blue;text-decoration: none;">Harvard Humanitarian Initiative</a>, where I've supported a diverse array of humanitarian research and operational programs. While my interests and skillsets remain broad, I've developed a particular skill and interest in building data collection and management systems with real-time, interactive data monitoring, and analysis dashboards. The applications for these dashboards have been diverse, ranging from disease surveillance platforms for the CDC and the Dominican Republic's Ministry of Health, to user registration and knowledge retention dashboards tracking key metrics for a global humanitarian response online training program.
                                         </p>    
@@ -255,12 +258,14 @@ div.scrollable::-webkit-scrollbar-thumb {
 
             <div class="slide" data-anchor="work" style="position: relative;">
            <!-- <h2 class="w3-row" style="position: absolute; top: 25px; left: 0; right: 0; text-align: center;">SELECTED WORKS</h2> -->
-            <div class="flex-container">
-                <div class="content-wrapper">
+            
+                <div class="flex-container">
+                
+                    <div class="content-wrapper">
 
-                    <div class="scrollable" style="max-height: 90vh; overflow-y: auto; margin-bottom: 18px;">
+                    <div class="scrollable" style="max-height: 90vh; max-width: 90vw; overflow-y: auto; margin-bottom: 18px;">
                     
-                        <div class="column technology w3-third" >
+                        <div class="w3-third">
                             <div class="img__wrap">
                                 <div>
                                     <h5><b>COVID-19 HOME-BASED CARE STUDY</b></h5>
@@ -288,7 +293,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                     </div>
 
 
-                    <div class="column technology w3-third" style="min-width:0px;">
+                    <div class="w3-third">
                         <div class="img__wrap">
                             <div>
                                 <h5><b>HOSPITAL WASH INTERVENTION</b></h5>
@@ -315,7 +320,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                         </div>
                     </div>
 
-                    <div class="column technology w3-third">
+                    <div class="w3-third" style="min-width:360px">
                         <div class="img__wrap">
                             <div>
                                 <h5><b>TRANSITIONAL JUSTICE SURVEY</b></h5>
@@ -342,7 +347,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                         </div>
                     </div>
 
-                    <div class="column technology w3-third" style="min-width:360px">
+                    <div class="w3-third" style="min-width:360px">
                         <div class="img__wrap">
                             <div>
                                 <h5><b>GLOBAL COVID-19 ONLINE SURVEY</b></h5>
@@ -370,7 +375,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                     </div>
 
 
-                    <div class="column technology w3-third">
+                    <div class="w3-third" style="min-width:360px">
     <div class="img__wrap">
         <div>
             <h5><b>HUMANITARIAN TRAINING DASHBOARD</b></h5>
@@ -396,7 +401,7 @@ div.scrollable::-webkit-scrollbar-thumb {
     </div>
 </div>
 
-<div class="column technology w3-third">
+<div class="w3-third" style="min-width:360px">
     <div class="img__wrap">
         <div>
             <h5><b>REGIONAL AFI DISEASE SURVEILLANCE</b></h5>
@@ -422,7 +427,7 @@ div.scrollable::-webkit-scrollbar-thumb {
     </div>
 </div>
 
-<div class="column technology w3-third">
+<div class="w3-third" style="min-width:360px">
     <div class="img__wrap">
         <div>
             <h5><b>NATIONAL SEROSURVEY AND COHORT</b></h5>
@@ -449,15 +454,14 @@ div.scrollable::-webkit-scrollbar-thumb {
 </div>
 
 
-                    <div class="column thesis w3-third">
+                    <div class="w3-third" style="min-width:360px">
         <div class="img__wrap">
             <div>
                 <h5><b>ViRS | VISUAL RESPONSE SIMULATOR</b></h5>
             </div>
             <a href="https://mdestaubin.github.io/portfolio/links/thesis/index">
-                <img class="img__img w3-hide-medium w3-hide-small w3-hover-opacity" src="images/thesis.png" alt="Norway" style="width:100%">
-                <img class="img__img w3-hide-large w3-hover-opacity" src="images/thesis.png" alt="Norway" >
-                <div class="img__description_layer w3-hide-small">
+               <img class="img__img w3-hover-opacity" src="images/thesis.png" alt="Norway" style="width:100%">
+            <div class="img__description_layer w3-hide-small">
                     <div class="img__description">
                         <h5><b>ViRS | VISUAL RESPONSE SIMULATOR</b></h5>
                         <h6 style="padding: 15px;">
@@ -878,7 +882,7 @@ div.scrollable::-webkit-scrollbar-thumb {
 
 
 
-        </div>
+        <!-- </div> -->
 
                 </div>
             </div>
@@ -977,7 +981,7 @@ div.scrollable::-webkit-scrollbar-thumb {
                 <div class="flex-container">
                     <div class="content-wrapper">
 
-                        <div class="scrollable" style="max-height: 90vh; overflow-y: auto; margin-bottom: 18px; font-size: 14px;">
+                        <div class="scrollable" style="max-height: 90vh; overflow-y: auto; margin-bottom: 18px; font-size: 14px; max-width:90">
 
                         <div class="w3-quarter" style=" margin-top: 0px">
                             <h5 style="font-size: 25px"><b>Education</b></h5>
