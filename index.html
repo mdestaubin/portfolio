@@ -184,11 +184,15 @@
     z-index: 2;
 }
 #skip-intro {
-    min-width: 110px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
     appearance: none;
     background: transparent;
     border: 0;
-    padding: 10px 0;
+    padding: 11px;
+    border-radius: 3px;
     color: #666;
     font: inherit;
     font-size: 14px;
@@ -197,8 +201,10 @@
     text-align: left;
     cursor: pointer;
 }
-#skip-intro:hover { color: blue; }
-#skip-intro:focus-visible { outline: 2px solid blue; outline-offset: 3px; }
+#skip-intro svg { width: 22px; height: 22px; }
+#skip-intro svg[hidden] { display: none; }
+#skip-intro:hover { color: #222; background: #f2f2f2; }
+#skip-intro:focus-visible { outline: 2px solid #333; outline-offset: 3px; }
 @media screen and (max-width: 768px) {
     .intro-slide .content-wrapper {
         grid-template-columns: minmax(0, 1fr);
@@ -240,6 +246,17 @@
 .fp-slidesNav.initial-intro-hint:not(:hover) ul li:first-child a::after {
     opacity: 1;
     visibility: visible;
+}
+/* Touch navigation keeps only the current page's label visible. */
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+    .fp-slidesNav ul li a:not(.active)::after {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    .fp-slidesNav ul li a.active::after {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 /* Shared starting position for résumé and publications content. */
@@ -473,9 +490,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
 .work-toolbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; position: relative; flex: none; padding-bottom: 16px; margin-bottom: 24px; border-bottom: 1px solid #e2e2e2; }
 .work-heading { min-width: 0; }
 .work-actions { display: flex; align-items: center; gap: 6px; flex: none; margin-block: -5px; }
-.work-count-control { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 3px; color: #444; font: 400 18px/22px Arial, sans-serif; cursor: default; }
-.work-count-control:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
-.work-count-control .work-tool-hint { line-height: 1.45; }
+.work-count-control { display: inline-flex; align-items: center; gap: 4px; height: 38px; margin-right: 8px; color: #595959; font: 13px/1.4 Arial, sans-serif; white-space: nowrap; }
 
 
 
@@ -528,10 +543,9 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
 .work-info-toggle { display: none; position: absolute; right: 3px; top: 3px; width: 32px; height: 32px; border: 1px solid #e2e2e2; border-radius: 50%; padding: 6px; background: white; color: #444; cursor: pointer; z-index: 2; }
 .work-info-toggle svg { display: block; width: 18px; height: 18px; }
 .work-card[hidden], .work-filter-panel[hidden], .work-sort-panel[hidden], #work-filter-badge[hidden] { display: none !important; }
-@media (hover: none), (pointer: coarse) { .work-info-toggle { display: block; } }
 @media screen and (max-width: 1000px) { .work-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media screen and (max-width: 768px) { .work-stage { padding: var(--page-content-top) 22px 28px; } .work-gallery-scroll { padding-right: 8px; } }
-@media screen and (max-width: 600px) { .work-toolbar { gap: 12px; } .work-actions { gap: 4px; } .work-gallery { grid-template-columns: minmax(0, 1fr); gap: 24px; } .work-card-caption { padding: 12px 0 8px; } }
+@media screen and (max-width: 600px) { .work-toolbar { flex-wrap: wrap; gap: 10px 12px; } .work-heading h2 { white-space: nowrap; } .work-actions { gap: 4px; margin-block: 0; margin-left: auto; } .work-gallery { grid-template-columns: minmax(0, 1fr); gap: 24px; } .work-card-caption { padding: 12px 0 8px; } }
 @media (prefers-reduced-motion: reduce) { .work-card-overlay, .work-project-link { transition: none; } }
 
 
@@ -555,13 +569,16 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
 @media (prefers-reduced-motion: reduce) { .work-card-overlay, .work-expand-button { transition: none; } }
 .work-card:is([data-project-view], [data-project-coming-soon]) .work-card-overlay { padding-right: 62px; }
 .work-card:is([data-project-view], [data-project-coming-soon]):hover .work-expand-button,
-.work-card:is([data-project-view], [data-project-coming-soon]):focus-within .work-expand-button { visibility: visible; opacity: 1; }
+.work-card:is([data-project-view], [data-project-coming-soon]):has(:focus-visible) .work-expand-button { visibility: visible; opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
     .work-card:is([data-project-view], [data-project-coming-soon]):hover .work-card-overlay { visibility: visible; opacity: 1; }
 }
-@media (hover: none), (pointer: coarse) {
-    .work-expand-button { visibility: visible; opacity: 1; }
-    .work-card:is([data-project-view], [data-project-coming-soon]) .work-info-toggle { right: auto; left: 3px; }
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+    .work-expand-button { visibility: visible; opacity: 1; width: 44px; height: 44px; padding: 13px; border: 0; background: transparent; color: #555; }
+    .work-expand-button svg { width: 18px; height: 18px; filter: drop-shadow(0 0 2px rgba(255, 255, 255, .85)); }
+    .work-expand-button:not([aria-disabled="true"]):hover,
+    .work-expand-button:not([aria-disabled="true"]):focus-visible { background: transparent; }
+    .work-expand-button[aria-disabled="true"] { color: #aaa; }
 }
 .work-gallery-area { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
 .work-gallery-scroll[hidden], .project-viewer[hidden] { display: none !important; }
@@ -632,7 +649,11 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                                 <h1 id="element"></h1>
                             </div>
                             <div class="intro-controls">
-                                <button id="skip-intro" type="button" aria-label="Skip introduction animation">Skip</button>
+                                <button id="skip-intro" type="button" aria-label="Pause introduction animation" data-state="playing">
+                                    <svg data-intro-icon="playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14"/></svg>
+                                    <svg data-intro-icon="paused" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false" hidden><path d="m8 5 11 7-11 7V5Z"/></svg>
+                                    <svg data-intro-icon="finished" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" hidden><path d="M4 10a8 8 0 1 1 1.8 7M4 4v6h6"/></svg>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -645,9 +666,9 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                         <header class="work-toolbar">
                             <div class="work-heading"><h2>Selected Work</h2></div>
                             <div class="work-actions">
-                                <span class="work-count-control" tabindex="0" aria-describedby="work-project-count-tip">
-                                    <span id="work-project-count" aria-live="polite" aria-atomic="true">23</span>
-                                    <span class="work-tool-hint" id="work-project-count-tip" role="tooltip">Projects</span>
+                                <span class="work-count-control" aria-live="polite" aria-atomic="true">
+                                    <span id="work-project-count">23</span>
+                                    <span id="work-project-count-label">Projects</span>
                                 </span>
                                 <button class="work-tool-button" id="work-filter-toggle" type="button" aria-label="Filter by type" aria-expanded="false" aria-controls="work-filter-panel" aria-describedby="work-filter-tip">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2.5" fill="white"/><circle cx="15" cy="17" r="2.5" fill="white"/></svg>
@@ -912,7 +933,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                         </article>
                         <!-- Review the legacy project URL and metadata when updating this project. -->
                         <article class="work-card" data-project-year="2017" data-project-types="public-health data-visualization">
-                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/ebolaMap" aria-labelledby="work-title-9">
+                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/mdestaubin.github.io_OG/ebolaMap/" aria-labelledby="work-title-9">
                                 <div class="work-image-frame">
                                     <img src="images/ebolaMap.jpg" alt="Interactive Ebola response map" loading="lazy" decoding="async">
                                     <div class="work-card-overlay" id="work-details-9">
@@ -1003,7 +1024,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                         </article>
                         <!-- Review the legacy project URL and metadata when updating this project. -->
                         <article class="work-card" data-project-year="2017" data-project-types="data-visualization research">
-                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/ebolaAid" aria-labelledby="work-title-13">
+                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/mdestaubin.github.io_OG/ebolaAid/" aria-labelledby="work-title-13">
                                 <div class="work-image-frame">
                                     <img src="images/ebolaAid.png" alt="Global humanitarian aid flow" loading="lazy" decoding="async">
                                     <div class="work-card-overlay" id="work-details-13">
@@ -1119,7 +1140,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                         </article>
                         <!-- Review the legacy project URL and metadata when updating this project. -->
                         <article class="work-card" data-project-year="2017" data-project-types="data-visualization creative-technology">
-                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/weather1/index.html" aria-labelledby="work-title-18">
+                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://mdestaubin.github.io/mdestaubin.github.io_OG/weather1/index.html" aria-labelledby="work-title-18">
                                 <div class="work-image-frame">
                                     <img src="images/weather.png" alt="Weather app" loading="lazy" decoding="async">
                                     <div class="work-card-overlay" id="work-details-18">
@@ -1210,7 +1231,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                         </article>
                         <!-- Review the legacy project URL and metadata when updating this project. -->
                         <article class="work-card" data-project-year="2014" data-project-types="architecture teaching">
-                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://the-bac.edu/experience-the-bac/galleries/citylab-at-the-bac" aria-labelledby="work-title-22">
+                            <a class="work-project-link" target="_blank" rel="noopener noreferrer" href="https://the-bac.edu/pre-college/pre-college-citylab" aria-labelledby="work-title-22">
                                 <div class="work-image-frame">
                                     <img src="images/bac.png" alt="BAC City Lab" loading="lazy" decoding="async">
                                     <div class="work-card-overlay" id="work-details-22">
@@ -1554,13 +1575,15 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script>
     let navigation;
     let introHintDismissed = false;
     let introFinished = false;
-    let typed;
-    let introPause;
+    let introPaused = false;
+    let introTimer;
+    let introNextStep;
+    let introStepDeadline = 0;
+    let introRemaining = 0;
     let touchGestureActive = false;
     let touchPageChanged = false;
     const skipIntro = document.getElementById('skip-intro');
@@ -1584,9 +1607,8 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
     function finishIntro() {
         if (introFinished) return;
         introFinished = true;
-        skipIntro.textContent = 'Restart';
-        skipIntro.setAttribute('aria-label', 'Restart introduction animation');
-        skipIntro.disabled = typeof Typed !== 'function';
+        introNextStep = null;
+        updateIntroControl();
         const introIsActive = document.querySelector('.intro-slide').classList.contains('active');
         if (navigation && introIsActive && !introHintDismissed) {
             navigation.classList.add('initial-intro-hint');
@@ -1650,45 +1672,73 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
     });
 
     function clearIntroAnimation() {
-        clearTimeout(introPause);
-        introPause = null;
-        if (typed) {
-            typed.destroy();
-            typed = null;
-        }
+        clearTimeout(introTimer);
+        introTimer = null;
+        introNextStep = null;
+    }
+
+    function updateIntroControl() {
+        const state = introFinished ? 'finished' : introPaused ? 'paused' : 'playing';
+        skipIntro.dataset.state = state;
+        skipIntro.setAttribute('aria-label',
+            (introFinished ? 'Restart' : introPaused ? 'Play' : 'Pause') + ' introduction animation');
+        skipIntro.querySelectorAll('[data-intro-icon]').forEach(function(icon) {
+            icon.toggleAttribute('hidden', icon.dataset.introIcon !== state);
+        });
+    }
+
+    function scheduleIntroStep(step, delay) {
+        introNextStep = step;
+        introRemaining = delay;
+        introStepDeadline = performance.now() + delay;
+        if (introPaused) return;
+        introTimer = setTimeout(function() {
+            introTimer = null;
+            introNextStep = null;
+            step();
+        }, delay);
     }
 
     function typeIntroLine(index) {
-        clearIntroAnimation();
-        // A single-string instance types forward only. The next instance
-        // clears the completed line in one step after the reading pause.
-        typed = new Typed('#element', {
-            strings: [introStrings[index]],
-            typeSpeed: 15,
-            showCursor: false,
-            loop: false,
-            startDelay: 0,
-            onComplete: function() {
-                if (index === introStrings.length - 1) {
-                    finishIntro();
-                } else {
-                    introPause = setTimeout(function() {
-                        typeIntroLine(index + 1);
-                    }, 1000);
-                }
+        // Build the line once, preserving the final contact link. Only text
+        // nodes change as characters appear; the control stays untouched.
+        const template = document.createElement('template');
+        template.innerHTML = introStrings[index];
+        const walker = document.createTreeWalker(template.content, NodeFilter.SHOW_TEXT);
+        const characters = [];
+        while (walker.nextNode()) {
+            const node = walker.currentNode;
+            Array.from(node.data).forEach(function(character) {
+                characters.push({ node: node, character: character });
+            });
+            node.data = '';
+        }
+        document.getElementById('element').replaceChildren(template.content);
+        let position = 0;
+        function typeCharacter() {
+            if (position < characters.length) {
+                const next = characters[position++];
+                next.node.data += next.character;
             }
-        });
+            if (position < characters.length) {
+                scheduleIntroStep(typeCharacter, 15 + Math.random() * 15);
+            } else if (index === introStrings.length - 1) {
+                finishIntro();
+            } else {
+                scheduleIntroStep(function() { typeIntroLine(index + 1); }, 1000);
+            }
+        }
+        scheduleIntroStep(typeCharacter, 15);
     }
 
     function startIntro(animate = true) {
         clearIntroAnimation();
         introFinished = false;
-        skipIntro.textContent = 'Skip';
-        skipIntro.setAttribute('aria-label', 'Skip introduction animation');
-        skipIntro.disabled = false;
+        introPaused = false;
+        updateIntroControl();
         document.getElementById('element').textContent = '';
 
-        if (typeof Typed === 'function' && animate) {
+        if (animate) {
             typeIntroLine(0);
         } else {
             document.getElementById('element').innerHTML = introStrings[introStrings.length - 1];
@@ -1700,10 +1750,16 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
         if (introFinished) {
             dismissIntroHint();
             startIntro();
+        } else if (introPaused) {
+            introPaused = false;
+            if (introNextStep) scheduleIntroStep(introNextStep, introRemaining);
+            updateIntroControl();
         } else {
-            clearIntroAnimation();
-            document.getElementById('element').innerHTML = introStrings[introStrings.length - 1];
-            finishIntro();
+            introRemaining = Math.max(0, introStepDeadline - performance.now());
+            clearTimeout(introTimer);
+            introTimer = null;
+            introPaused = true;
+            updateIntroControl();
         }
     });
 
@@ -1718,7 +1774,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
             <h1 id="project-viewer-title">ViRS | Visual Response Simulator</h1>
             <p class="project-subtitle">Harvard GSD</p>
             <div class="project-overview">
-                <div><p class="project-summary">An agent-based simulation model to test infectious disease outbreak response strategies and capacities. Developed as an individual thesis project at Harvard GSD.</p><a class="story-link" href="https://mdestaubin.github.io/simulation" target="_blank" rel="noopener noreferrer" aria-label="Explore the simulator (opens in a new tab)"><span>Explore the simulator</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div>
+                <div><p class="project-summary">An agent-based simulation model to test infectious disease outbreak response strategies and capacities. Developed as an individual thesis project at Harvard GSD.</p><a class="story-link" href="https://mdestaubin.github.io/mdestaubin.github.io_OG/simulation/" target="_blank" rel="noopener noreferrer" aria-label="Explore the simulator (opens in a new tab)"><span>Explore the simulator</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div>
                 <dl class="project-facts" aria-label="Project details">
                     <div><dt>Year</dt><dd>2017-2018</dd></div>
                     <div><dt>School</dt><dd>Harvard GSD</dd></div>
@@ -2049,6 +2105,11 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
     const workCards = Array.from(document.querySelectorAll('.work-card'));
     const workCount = document.getElementById('work-project-count');
     const workBadge = document.getElementById('work-filter-badge');
+    const workCountLabel = document.getElementById('work-project-count-label');
+    function setWorkCount(count) {
+        workCount.textContent = String(count);
+        workCountLabel.textContent = count === 1 ? 'Project' : 'Projects';
+    }
     function closeWorkFilters(returnFocus = false) {
         if (workFilterPanel.hidden) return;
         workFilterPanel.hidden = true;
@@ -2088,7 +2149,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
                 card.querySelector('.work-info-toggle').setAttribute('aria-expanded', 'false');
             }
         });
-        workCount.textContent = String(visible);
+        setWorkCount(visible);
         workBadge.hidden = !selected.length;
         workBadge.textContent = selected.length;
         workFilterToggle.setAttribute('aria-label', selected.length ? `Filter by type, ${selected.length} types selected` : 'Filter by type');
@@ -2169,7 +2230,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
         galleryScroll.hidden = true;
         projectViewer.hidden = false;
         card.querySelectorAll('[aria-controls="project-viewer"]').forEach(control => control.setAttribute('aria-expanded', 'true'));
-        workCount.textContent = '1';
+        setWorkCount(1);
         document.getElementById('project-viewer-close').focus({ preventScroll: true });
         projectScroll.scrollTop = 0;
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2204,7 +2265,7 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
         projectViewer.hidden = true;
         galleryScroll.hidden = false;
         document.querySelectorAll('[aria-controls="project-viewer"]').forEach(control => control.setAttribute('aria-expanded', 'false'));
-        workCount.textContent = String(workCards.filter(card => !card.hidden).length);
+        setWorkCount(workCards.filter(card => !card.hidden).length);
         // Removing the iframe stops video playback; the next opening starts at the top.
         projectContent.replaceChildren();
         if (window.fullpage_api) {
@@ -2212,7 +2273,10 @@ html.fp-enabled, html.fp-enabled body { overflow: hidden !important; }
             fullpage_api.setAllowScrolling(true, 'left,right');
         }
         if (returnFocus && projectReturnFocus && !projectReturnFocus.closest('.work-card').hidden) {
-            projectReturnFocus.focus({ preventScroll: true });
+            // Return to the always-visible card link. Keyboard users can reopen
+            // the project with Enter; mouse focus does not keep the icon showing.
+            const returnLink = projectReturnFocus.closest('.work-card').querySelector('.work-project-link');
+            returnLink.focus({ preventScroll: true });
         }
         galleryScroll.scrollTop = projectGalleryPosition;
     }
